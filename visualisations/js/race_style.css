@@ -1,0 +1,32 @@
+body {
+  background-color: #0c1016;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+#chartdiv {
+  color: white;
+  width: 100%;
+  height: 500px;
+}
+* {
+  color: white;
+}
+
+/* Landscape */
+.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 6px;
+  font: 12px sans-serif;
+  background: #696969;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.legend-text {
+  /* font-size: 12px; */
+  fill: white;
+}

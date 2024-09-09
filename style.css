@@ -1,0 +1,462 @@
+.rakkas-regular {
+  font-family: "Rakkas", serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("https://assets.codepen.io/907368/Roboto-Bold.ttf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("https://assets.codepen.io/907368/Roboto-Regular.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("https://assets.codepen.io/907368/Roboto-Light.ttf");
+  font-weight: 300;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+/* Styles for main title */
+#main-title {
+  text-align: center;
+  font-family: "rakkas";
+  font-size: 70px;
+  -webkit-text-stroke: 0.5px rgba(0, 255, 242, 0.272); 
+  font-weight: bold;
+}
+
+.section {
+  background-color: #0c1016;
+  padding: 20px;
+  color: white;
+}
+
+.divider {
+  height: 4px; /* Adjust the height of the divider as needed */
+  background-color: white;
+  width: 100%;
+}
+
+
+.alternate {
+  background-color: #212e3d;
+  width: 100%; /* Ensure the section spans the full width */
+  box-sizing: border-box; /* Include padding and border in the width */
+  padding: 20px; /* Add padding to the section */
+}
+
+/* Styles for titles in section div */
+.section h2#plot-title {
+  text-align: left;
+  font-family: "rakkas";
+  font-size: 50px;
+  -webkit-text-stroke: 0.5px rgba(0, 255, 242, 0.272); 
+  font-weight: bold;
+}
+
+/* Styles for titles in section alternate div */
+.section.alternate h2#plot-title {
+  text-align: right;
+  font-family: "rakkas";
+  font-size: 50px;
+  -webkit-text-stroke: 0.5px rgba(0, 255, 242, 0.272); 
+  font-weight: bold;
+}
+
+/* Turnout Scatterplot */
+#scatterplot-container {
+  display: flex;
+  height: 80vh;
+  width: 80vw;
+  align-items: center;
+}
+
+#turnout-scatterplot {
+  flex: 1;
+  max-width: 70vw;
+  height: 100%;
+}
+
+#secondary-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  max-width: 30vw;
+  height: 100%;
+}
+
+#stateDropdown,
+#partyDropdown {
+  width: 250px;
+}
+
+#dashboard {
+  width: 200px;
+}
+
+#dropdowns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  max-width: 30vw;
+}
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid steelblue;
+  border-radius: 5px;
+  background-color: #adb9ff;
+  color: rgb(0, 0, 0);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+select::after {
+  content: "\25BC";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.turnout-tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 6px;
+  font: 12px sans-serif;
+  background: #696969;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.scatter_dot {
+  stroke: #383838;
+  stroke-width: 1.5px;
+}
+
+/* Average Turnout */
+
+#avg-turnout-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#heading {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+}
+
+#avg-turnout-graph-container {
+  flex: 3;
+  width: 100%;
+  overflow: hidden;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.axis-text {
+  font-size: 12px;
+  fill: rgb(255, 255, 255);
+}
+
+.tooltip,
+.avg-turnout-tooltip,
+.pc-yearwise-tooltip,
+.turnout-chloropleth-tooltip {
+  position: absolute;
+  background-color: rgba(88, 88, 88, 0.7);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.statewise-constituencies-tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.dot {
+  fill: rgb(0, 200, 255);
+  cursor: pointer;
+}
+
+.dot:hover {
+  fill: rgb(234, 0, 255);
+}
+
+.hover-line {
+  stroke: #83018a;
+  stroke-dasharray: 3, 3;
+}
+
+.grid line {
+  stroke: rgb(142, 142, 142);
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+.grid path {
+  stroke-width: 0;
+}
+
+#pc-yearwise-turnout-container,
+#avg-turnout-container,
+#turnout-chloropleth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#pc-yearwise-turnout-graph-container {
+  flex: 3;
+  width: 100%;
+  overflow: hidden;
+}
+
+#map-container {
+  flex: 3;
+  width: 100%;
+  overflow: hidden;
+}
+
+#year-dropdown {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid steelblue;
+  border-radius: 5px;
+  background-color: #adb9ff;
+  color: rgb(0, 0, 0);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.constituency {
+  stroke: rgb(0, 0, 0);
+  stroke-width: 0.5;
+  fill: none;
+}
+
+.constituency:hover {
+  stroke: rgb(4, 255, 0);
+  stroke-width: 2;
+}
+
+.statewise-constituencies-slider {
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #969696;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+  margin-top: 20px;
+}
+
+.statewise-constituencies-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04aa6d;
+  cursor: pointer;
+}
+
+.statewise-constituencies-slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04aa6d;
+  cursor: pointer;
+}
+
+svg text {
+  fill: white;
+}
+
+svg circle {
+  stroke: white;
+}
+
+#statewise-margin-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+#sidebar {
+  flex: 30%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#content {
+  flex: 70%;
+  padding: 20px;
+}
+
+#state-select,
+#year-select,
+#margin-slider {
+  width: calc(100% - 20px);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid steelblue;
+  border-radius: 5px;
+  background-color: #adb9ff;
+  color: rgb(0, 0, 0);
+  margin-bottom: 10px;
+}
+
+#myButton {
+  width: calc(100% - 20px);
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: steelblue;
+  color: white;
+  cursor: pointer;
+}
+
+#scatterplot {
+  width: 100%;
+  height: calc(100% - 40px);
+}
+
+#tooltip {
+  position: absolute;
+  visibility: hidden;
+  background: rgba(176, 176, 176, 0.8);
+  border: 1px solid #999;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+/* Forstress state */
+#state-overview-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+}
+
+#fortress-state-map {
+  width: 49%;
+  height: 600px;
+}
+
+#fortress-bar-chart {
+  width: 49%;
+  height: 600px;
+}
+
+#fortress-bar-chart .bar {
+  fill: steelblue;
+}
+
+#fortress-bar-chart .bar text {
+  fill: white;
+  font-size: 14px;
+  text-anchor: middle;
+}
+.bar2 {
+  fill: steelblue;
+}
+.bar2:hover {
+  fill: orange;
+}
+.arc73 text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+.arc73 path {
+  stroke: #fff;
+}
+.paralle {
+  display: flex;
+}
+.k74 {
+  flex:1;
+}
+.state74 {
+  stroke-width: 1;
+  stroke: #fff;
+}
+.state74:hover {
+  fill:rgb(7, 170, 7)
+}
+.k75 {
+  flex:1;
+}
+.state75 {
+  stroke-width: 1;
+  stroke: #5b5b5b;
+}
+.state75:hover {
+  fill:rgb(7, 170, 7)
+}
+
+.k76 {
+  display: flex;
+}
+
+#map76 {
+  flex: 100;
+  padding-left: 100px; /*Distribute available space equally among these items*/
+  margin: 20px; /* Add some margin for spacing */
+}
+
+#piechart176 {
+  flex: 1; 
+  padding-top: 100px; /* Add padding at the top */
+}
+
+#piechart276 {
+  flex: 1; /* Distribute available space equally among these items */
+  margin: 20px; /* Add some margin for spacing */
+  padding-top: 100px; /* Add padding at the top */
+}

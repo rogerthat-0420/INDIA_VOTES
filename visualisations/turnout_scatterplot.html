@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Indian Parliamentary Elections Turnout Scatter Plot</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #0c1016;
+        color: white;
+      }
+
+      #scatterplot-container {
+        display: flex;
+        height: 80vh;
+        align-items: center;
+      }
+
+      #turnout-scatterplot {
+        flex: 1;
+        max-width: 70vw;
+        height: 100%;
+      }
+
+      #secondary-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 20px;
+        max-width: 30vw;
+        height: 100%;
+      }
+
+      #stateDropdown,
+      #partyDropdown {
+        width: 250px;
+      }
+
+      #dashboard {
+        width: 200px;
+      }
+
+      #dropdowns {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 20px;
+        max-width: 30vw;
+      }
+
+      select {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid steelblue;
+        border-radius: 5px;
+        background-color: #adb9ff;
+        color: rgb(0, 0, 0);
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      select::after {
+        content: "\25BC";
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+
+      select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+
+      .turnout-tooltip {
+        position: absolute;
+        text-align: center;
+        padding: 6px;
+        font: 12px sans-serif;
+        background: #696969;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        pointer-events: none;
+      }
+
+      .scatter_dot {
+        stroke: #383838;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>2019 Parliamentary Elections Turnout</h1>
+    <div id="scatterplot-container">
+      <div id="turnout-scatterplot"></div>
+      <div id="secondary-container">
+        <div id="dropdowns">
+          <select id="stateDropdown">
+            <option value="all">All States</option>
+          </select>
+          <select id="partyDropdown">
+            <option value="all">All Parties</option>
+          </select>
+        </div>
+        <div id="dashboard">
+          <p id="constituenciesInfo"></p>
+          <p id="seatsWonInfo"></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/turnout_scatterplot.js" type="module"></script>
+  </body>
+</html>

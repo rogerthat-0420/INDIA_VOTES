@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>India Votes</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="visualisations/js/race_style.css" />
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1 id="main-title">Unveiling the Electoral Landscape of India</h1>
+
+    <p id="some-content">
+      India, the world's largest democracy, has witnessed a rich and dynamic
+      electoral history. The Parliamentary General Elections are a testament to
+      the nation's democratic principles and the people's voice. This data
+      visualization project aims to unravel the intricate tapestry of Indian
+      elections, shedding light on voter behavior, political dynamics, and the
+      evolving landscape of power distribution across the country. <br />
+      Through a series of visualizations, we embark on a journey that spans
+      constituencies, states, and the entire nation, unveiling the electoral
+      trends over time. From the granular analysis of individual constituencies
+      to the broader patterns that shape the nation's political destiny, this
+      project offers an immersive and comprehensive exploration of India's
+      vibrant democratic process.
+    </p>
+    <div class="divider"></div>
+
+    <!-- Local -->
+    <div class="section alternate">
+      <h2 id="plot-title">Local Electoral Participation</h2>
+      <p id="plot-description">
+        The scatter plot below visualizes the voter turnout percentage across
+        different constituencies in India. This visualization provides a
+        thorough examination of how participation trends have developed within
+        each constituency over time, facilitating a better understanding of the
+        voter engagement and the evolving landscape of political participation.
+      </p>
+
+      <div id="pc-yearwise-turnout-container">
+        <div id="heading">
+          <h1>Constituency Turnout Percentage Throughout the Years (India)</h1>
+          <select id="dropdown"></select>
+        </div>
+        <div id="pc-yearwise-turnout-graph-container">
+          <svg id="pc-yearwise-turnout-svg-container"></svg>
+        </div>
+      </div>
+
+      <div class="pc-yearwise-tooltip"></div>
+
+      <div id="turnout-chloropleth-container">
+        <div id="heading">
+          <h1 style="color: white">
+            Voters Turnout % Chloropleth India Yearwise<br />(1962 - 2019)
+          </h1>
+          <select id="year-dropdown">
+            <option value="2019">2019</option>
+            <option value="2014">2014</option>
+            <option value="2009">2009</option>
+            <option value="2004">2004</option>
+            <option value="1999">1999</option>
+            <option value="1998">1998</option>
+            <option value="1996">1996</option>
+            <option value="1991">1991</option>
+            <option value="1989">1989</option>
+            <option value="1984">1984</option>
+            <option value="1980">1980</option>
+            <option value="1977">1977</option>
+            <option value="1971">1971</option>
+            <option value="1967">1967</option>
+            <option value="1962">1962</option>
+          </select>
+        </div>
+        <div id="map-container">
+          <svg id="india-map" width="1000" height="800"></svg>
+        </div>
+      </div>
+
+      <div class="turnout-chloropleth-tooltip"></div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Nation -->
+
+    <div class="section">
+      <h2 id="plot-title">Nationwide Democratic Engagement</h2>
+      <p id="plot-description">
+        Voter turnout is a vital indicator of a nation's democratic health, and
+        this visualization captures the average turnout across India over the
+        years. By examining this metric, we can identify periods of heightened
+        participation or potential apathy. Fluctuations in turnout rates can
+        shed light on factors influencing voter mobilization, such as policy
+        issues, political campaigns, or broader societal trends.
+      </p>
+      <div id="avg-turnout-container">
+        <div id="heading">
+          <h1>Average Turnout Percentage Throughout the Years (India)</h1>
+        </div>
+        <div id="avg-turnout-graph-container">
+          <svg id="avg-turnout-svg-container"></svg>
+        </div>
+      </div>
+      <div class="avg-turnout-tooltip"></div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Front Runner -->
+    <div class="section alternate">
+      <h2 id="plot-title">The Frontrunners of Voter Engagement</h2>
+      <p id="plot-description">
+        This dynamic 'turnout race' visualization highlights the top 15 states
+        that have consistently led the charge in fostering democratic
+        participation.
+      </p>
+      <h1>Turnout% Race of Indian States over the Years (1962-2019)</h1>
+      <div id="chartdiv"></div>
+      <script src="visualisations/js/race_script.js"></script>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Domination -->
+    <div class="section">
+      <h2 id="plot-title">Domination of Political Parties</h2>
+      <p id="plot-description">
+        This multidimensional scatter plot unveils the interplay between voter
+        turnout, vote margins, and the domination of political parties.
+      </p>
+      <div id="statewise-margin-container">
+        <div id="sidebar">
+          <h1>Election Day</h1>
+          <label for="margin-slider">Minimum Margin Percentage:</label>
+          <input type="range" id="margin-slider" min="0" max="30" value="0" />
+          <span id="margin-value">0%</span>
+          <select id="state-select">
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Andaman and Nicobar Islands">
+              Andaman and Nicobar Islands
+            </option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Dadra and Nagar Haveli and Daman and Diu">
+              Dadra and Nagar Haveli and Daman and Diu
+            </option>
+            <option value="Lakshadweep">Lakshadweep</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Puducherry">Puducherry</option>
+          </select>
+          <select id="year-select">
+            <option value="1962.0">1962</option>
+            <option value="1967.0">1967</option>
+            <option value="1971.0">1971</option>
+            <option value="1977.0">1977</option>
+            <option value="1980.0">1980</option>
+            <option value="1984.0">1984</option>
+            <option value="1989.0">1989</option>
+            <option value="1991.0">1991</option>
+            <option value="1996.0">1996</option>
+            <option value="1998.0">1998</option>
+            <option value="2004.0">2004</option>
+            <option value="2009.0">2009</option>
+            <option value="2014.0">2014</option>
+            <option value="2019.0">2019</option>
+          </select>
+          <button id="myButton">Show Data</button>
+        </div>
+
+        <div id="content">
+          <svg id="scatterplot"></svg>
+          <div id="tooltip"></div>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Election Result By State -->
+    <div class="section alternate">
+      <h2 id="plot-title">Election Results by State</h2>
+      <p id="plot-description">
+        This radial stacked bar graph offers a representation of the winning
+        parties in each state for a given year. Through this visualisation, we
+        can discern regional political preferences and the distribution of power
+        across the country.
+      </p>
+      <input
+        class="statewise-constituencies-slider"
+        type="range"
+        min="1962"
+        max="2019"
+        value="1962"
+        step="1"
+        id="yearSlider"
+        oninput="updateYear()"
+        style="width: 300px"
+      />
+
+      <div id="yearDisplay">Year: <span id="selectedYear">1962</span></div>
+      <button onclick="getData()" id="myButton">Show Data</button>
+
+      <div id="statewise-constituencies-chart"></div>
+      <div class="statewise-constituencies-tooltip"></div>
+      <p id="plot-description">
+        This visualisation provides another view to parties that have won each
+        state.
+      </p>
+      <div id="state-overview-container">
+        <span class="k76">
+          <svg id="map76"></svg>
+          <div class="tooltip"></div>
+          <div id="piechart176"></div>
+          <div id="piechart276"></div>
+        </span>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- State Dynamics -->
+    <div class="section">
+      <h2 id="plot-title">Comparing State-Level Party Dynamics</h2>
+      <p id="plot-description">
+        This interactive line chart allows users to select a specific state and
+        two political parties, revealing the trends of these parties within that
+        state over time.
+      </p>
+      <label for="state71">Select a state:</label>
+      <select id="state71"></select>
+
+      <label for="party171">Select Party 1:</label>
+      <select id="party171"></select>
+
+      <label for="party271">Select Party 2:</label>
+      <select id="party271"></select>
+      <br />
+      <br />
+
+      <button class="button71" id="myButton">Update Chart</button>
+      <br />
+      <br />
+      <div id="chart71"></div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="section alternate">
+      <h2 id="plot-title">Distribution of Power Across the Nation</h2>
+
+      <svg class="k72"></svg>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Inclusice Rep -->
+    <div class="section">
+      <h2 id="plot-title">Inclusive Representation</h2>
+      <p id="plot-description">
+        India's commitment to inclusive representation is embodied in the
+        reservation of seats for marginalized communities, such as Scheduled
+        Castes (SCs) and Scheduled Tribes (STs). This interactive pie chart
+        allows users to select a specific state and visualize the distribution
+        of seats between general candidates and those reserved for SC/ST
+        communities.
+      </p>
+      <select id="stateSelector73"></select>
+      <svg width="500" height="500" class="k73"></svg>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Tracing -->
+
+    <div class="section alternate">
+      <h2 id="plot-title">
+        Tracing the Transition of India's Political Landscape
+      </h2>
+      <p id="plot-description">
+        This visualization examines the evolution of major political parties in
+        the Indian Parliament, such as the Indian National Congress (INC), the
+        Bharatiya Janata Party (BJP), the Communist Party of India (Marxist)
+        [CPI(M)], and Others. <br />
+        It illuminates the remarkable ascent of the BJP, shedding light on the
+        shifting landscape of Indian politics. Furthermore, it challenges the
+        notion of India's transition to a two-party system by highlighting the
+        enduring significance of 'Other' parties, which still command
+        substantial vote shares.
+      </p>
+
+      <div id="landscape_analysis"></div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Granular -->
+    <div class="section">
+      <h2 id="plot-title">Elections 2019: A Granular Perspective</h2>
+      <p id="plot-description">
+        This scatter plot offers a granular view of voter turnout, allowing for
+        comparisons across constituencies and the identification of outliers or
+        regions of particular interest. Through this, we get a more nuanced
+        understanding of political dynamics at the local level.
+      </p>
+      <div id="scatterplot-container">
+        <div id="turnout-scatterplot"></div>
+        <div id="secondary-container">
+          <div id="dropdowns">
+            <select id="stateDropdown">
+              <option value="all">All States</option>
+            </select>
+            <select id="partyDropdown">
+              <option value="all">All Parties</option>
+            </select>
+          </div>
+          <div id="dashboard">
+            <p id="constituenciesInfo"></p>
+            <p id="seatsWonInfo"></p>
+          </div>
+        </div>
+      </div>
+      <div width="100000" height="1000">
+        <canvas id="radarChart" width="1000" height="1000"></canvas>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="section alternate">
+      <h2 id="plot-title">Population and Area Comparison of constituencies</h2>
+      <span class="paralle"
+      ><svg width="400" height="600" class="k74"></svg>
+      
+      <svg width="400" height="600" class="k75"></svg></span>
+      <br />
+      <br />
+
+      <p id="plot-description">
+        Left chart shows the population of constituencies and right chart shows the area of each state. Helps us to identify the constituencies with high population and area.
+      </p>
+    </div>
+    <div class="divider"></div>
+
+    <script src="visualisations/js/71.js" type="module"></script>
+    <script src="visualisations/js/73.js" type="module"></script>
+    <script src="visualisations/js/74.js" type="module"></script>
+    <script src="visualisations/js/75.js" type="module"></script>
+    <script src="visualisations/js/76.js" type="module"></script>
+    <script src="visualisations/js/canvas.js" type="module"></script>
+    <script
+      src="visualisations/js/turnout_scatterplot.js"
+      type="module"
+    ></script>
+    <script src="visualisations/js/72.js" type="module"></script>
+    <script
+      src="visualisations/js/landscape_analysis.js"
+      type="module"
+    ></script>
+    <script src="visualisations/js/avg_turnout.js" type="module"></script>
+    <script
+      src="visualisations/js/pc_yearwise_turnout.js"
+      type="module"
+    ></script>
+    <script
+      src="visualisations/js/turnout_chloropleth.js"
+      type="module"
+    ></script>
+    <script>
+      function updateYear() {
+        const yearSlider = document.getElementById("yearSlider");
+        const year = yearSlider.value;
+        const years = [
+          "1962",
+          "1967",
+          "1971",
+          "1977",
+          "1980",
+          "1984",
+          "1989",
+          "1991",
+          "1996",
+          "1998",
+          "2004",
+          "2009",
+          "2014",
+          "2019",
+        ];
+        var closest = years.reduce(function (prev, curr) {
+          return Math.abs(curr - year) < Math.abs(prev - year) ? curr : prev;
+        });
+        document.getElementById("selectedYear").innerText = closest;
+      }
+
+      function getData() {
+        console.log("getData");
+        const year = document.getElementById("yearSlider").value;
+        const years = [
+          "1962",
+          "1967",
+          "1971",
+          "1977",
+          "1980",
+          "1984",
+          "1989",
+          "1991",
+          "1996",
+          "1998",
+          "2004",
+          "2009",
+          "2014",
+          "2019",
+        ];
+        var closest = years.reduce(function (prev, curr) {
+          return Math.abs(curr - year) < Math.abs(prev - year) ? curr : prev;
+        });
+        d3.json("./dataset/data.json").then(function (rawData) {
+          drawchart(rawData, closest);
+        });
+      }
+
+      updateYear();
+      getData();
+
+      async function drawchart(rawData, closest) {
+        const data = rawData.filter((d) => d.year == closest);
+
+        const parties = Array.from(new Set(data.map((d) => d.party)));
+        const states = Array.from(new Set(data.map((d) => d.state)));
+
+        const processedData = states.map((state) => {
+          const entry = { state };
+          data
+            .filter((d) => d.state === state)
+            .forEach((d) => {
+              entry[d.party] = d.constituencies_count;
+            });
+          return entry;
+        });
+
+        const stack = d3
+          .stack()
+          .keys(parties)
+          .value((d, key) => d[key] || 0);
+
+        const series = stack(processedData);
+
+        const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+        const width = window.innerWidth - margin.left - margin.right;
+        const height = window.innerHeight - margin.top - margin.bottom + 200;
+
+        const outerRadius = Math.min(width, height) / 2 - 200;
+        const innerRadius = 100;
+
+        const arc = d3
+          .arc()
+          .innerRadius((d) => y(d[0]))
+          .outerRadius((d) => y(d[1]))
+          .startAngle((d) => x(d.data.state))
+          .endAngle((d) => x(d.data.state) + x.bandwidth())
+          .padAngle(0.005)
+          .padRadius(innerRadius);
+
+        const x = d3
+          .scaleBand()
+          .domain(states)
+          .range([0, 2 * Math.PI])
+          .align(0);
+
+        const y = d3
+          .scaleRadial()
+          .domain([0, d3.max(series, (d) => d3.max(d, (d) => d[1]))])
+          .range([innerRadius, outerRadius]);
+
+        const color = d3
+          .scaleOrdinal()
+          .domain(parties)
+          .range(d3.schemeCategory10);
+
+        d3.select("#statewise-constituencies-chart").select("svg").remove();
+
+        const svg = d3
+          .select("#statewise-constituencies-chart")
+          .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .attr(
+            "viewBox",
+            `100 100 ${width + margin.left + margin.right} ${
+              height + margin.top + margin.bottom
+            }`
+          )
+          .attr("preserveAspectRatio", "xMidYMid meet")
+          .append("g")
+          .attr("transform", `translate(${width / 2},${height / 2})`);
+
+        const tooltip = d3
+          .select("body")
+          .append("div")
+          .attr("class", "statewise-constituencies-tooltip")
+          .style("opacity", 0);
+
+        svg
+          .append("g")
+          .selectAll()
+          .data(series)
+          .join("g")
+          .attr("fill", (d) => color(d.key))
+          .selectAll("path")
+          .data((d) => d)
+          .join("path")
+          .attr("d", arc)
+          .on("mouseover", function (event, d) {
+            d3.select(this).style("stroke", "cyan").style("stroke-width", 2);
+
+            const state = d.data.state;
+            const party = d3.select(this.parentNode).datum().key;
+            const seats = d.data[party] || "N/A";
+
+            tooltip
+              .style("opacity", 1)
+              .html(
+                `State: ${state}<br>Party: ${party || "N/A"}<br>Seats: ${seats}`
+              )
+              .style("left", event.pageX + 10 + "px")
+              .style("top", event.pageY - 28 + "px");
+          })
+          .on("mouseout", function () {
+            d3.select(this).style("stroke", "#fff").style("stroke-width", 0.5);
+            tooltip.style("opacity", 0);
+          });
+
+        const totalConstituencyCount = {};
+        data.forEach((d) => {
+          if (!totalConstituencyCount[d.state]) {
+            totalConstituencyCount[d.state] = 0;
+          }
+          totalConstituencyCount[d.state] += d.constituencies_count || 0;
+        });
+
+        svg
+          .append("g")
+          .selectAll()
+          .data(x.domain())
+          .join("g")
+          .call((g) =>
+            g
+              .attr("text-anchor", function (d) {
+                return (x(d) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) <
+                  Math.PI
+                  ? "end"
+                  : "start";
+              })
+              .attr("transform", function (d) {
+                return (
+                  "rotate(" +
+                  (((x(d) + x.bandwidth() / 2) * 180) / Math.PI - 90) +
+                  ")" +
+                  "translate(" +
+                  (y(totalConstituencyCount[d]) + 10) +
+                  ",0)"
+                );
+              })
+              .append("text")
+              .text(function (d) {
+                return d;
+              })
+              .attr("transform", function (d) {
+                return (x(d) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) <
+                  Math.PI
+                  ? "rotate(180)"
+                  : "rotate(0)";
+              })
+              .style("font-size", "15px")
+              .style("fill", "white")
+              .attr("alignment-baseline", "middle")
+          );
+
+        svg
+          .append("g")
+          .attr("text-anchor", "end")
+          .call((g) =>
+            g
+              .selectAll("g")
+              .data(y.ticks(10).slice(1))
+              .join("g")
+              .attr("fill", "none")
+              .call((g) =>
+                g
+                  .append("circle")
+                  .attr("stroke", "white")
+                  .attr("stroke-opacity", 0.25)
+                  .attr("r", y)
+              )
+          );
+
+        const legend = svg
+          .append("g")
+          .attr(
+            "transform",
+            `translate(${-width / 2 + 100}, ${-height / 2 + 200})`
+          );
+
+        const legendItem = legend
+          .selectAll(".legend-item")
+          .data(color.domain())
+          .enter()
+          .append("g")
+          .attr("class", "legend-item")
+          .attr("transform", (d, i) => `translate(0, ${i * 20})`);
+
+        legendItem
+          .append("rect")
+          .attr("x", 10)
+          .attr("y", 10)
+          .attr("width", 18)
+          .attr("height", 18)
+          .style("fill", color);
+
+        legendItem
+          .append("text")
+          .attr("x", 40)
+          .attr("y", 19)
+          .text((d) => d)
+          .attr("fill", "white");
+
+        return svg.node();
+      }
+    </script>
+    <script src="visualisations/js/statewise_margin.js" type="module"></script>
+    <script
+      src="visualisations/js/statewise_overview.js"
+      type="module"
+    ></script>
+  </body>
+</html>

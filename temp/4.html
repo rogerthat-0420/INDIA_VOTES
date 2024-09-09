@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Data Visualization</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        body {
+            display: flex; /* Use flexbox to align items horizontally */
+            justify-content: space-around; /* Distribute items along the line */
+            align-items: flex-start; /* Align items at the start of the cross axis */
+            margin: 0;
+            padding: 0;
+        }
+
+        #map76 {
+            flex: 2;
+            padding-left: 100px; /*Distribute available space equally among these items*/
+            margin: 20px; /* Add some margin for spacing */
+        }
+
+        #piechart176 {
+            flex: 1; 
+            padding-left: 100px; /* Add some margin for spacing */
+            padding-top: 100px; /* Add padding at the top */
+        }
+        
+        #piechart276 {
+            flex: 1; /* Distribute available space equally among these items */
+            margin: 20px; /* Add some margin for spacing */
+            padding-top: 100px; /* Add padding at the top */
+        }
+
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 100px;
+            height: auto;
+            padding: 8px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            pointer-events: none; /* This ensures that the tooltip does not block mouse events */
+        }
+        
+    </style>
+</head>
+<body>
+    <svg id="map76"></svg>
+    <div class="tooltip"></div>
+    <div id="piechart176"></div>
+    <div id="piechart276"></div>
+    <script src="script1.js"></script>
+
+</body>
+</html>

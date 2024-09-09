@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scatterplot</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0c1016;
+            color: white;
+        }
+
+        #container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        #sidebar {
+            flex: 30%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #content {
+            flex: 70%;
+            padding: 20px;
+        }
+
+        #state-select,
+        #year-select,
+        #margin-slider {
+            width: calc(100% - 20px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid steelblue;
+            border-radius: 5px;
+            background-color: #adb9ff;
+            color: rgb(0, 0, 0);
+            margin-bottom: 10px;
+        }
+
+        #myButton {
+            width: calc(100% - 20px);
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: steelblue;
+            color: white;
+            cursor: pointer;
+        }
+
+        #scatterplot {
+            width: 100%;
+            height: calc(100% - 40px);
+            /* Adjusted to fit remaining height */
+        }
+
+        #tooltip {
+            position: absolute;
+            visibility: hidden;
+            background: rgba(176, 176, 176, 0.8);
+            border: 1px solid #999;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="sidebar">
+            <h1>Election Day</h1>
+            <label for="margin-slider">Minimum Margin Percentage:</label>
+            <input type="range" id="margin-slider" min="0" max="30" value="0">
+            <span id="margin-value">0%</span>
+            <select id="state-select">
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                <option value="Chandigarh">Chandigarh</option>
+                <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu
+                </option>
+                <option value="Lakshadweep">Lakshadweep</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Puducherry">Puducherry</option>
+            </select>
+            <select id="year-select">
+                <option value="1962.0">1962</option>
+                <option value="1967.0">1967</option>
+                <option value="1971.0">1971</option>
+                <option value="1977.0">1977</option>
+                <option value="1980.0">1980</option>
+                <option value="1984.0">1984</option>
+                <option value="1989.0">1989</option>
+                <option value="1991.0">1991</option>
+                <option value="1996.0">1996</option>
+                <option value="1998.0">1998</option>
+                <option value="2004.0">2004</option>
+                <option value="2009.0">2009</option>
+                <option value="2014.0">2014</option>
+                <option value="2019.0">2019</option>
+            </select>
+            <button id="myButton">Show Data</button>
+        </div>
+        <div id="content">
+            <svg id="scatterplot"></svg>
+            <div id="tooltip"></div>
+        </div>
+    </div>
+
+    <script>
+        const svgWidth = document.getElementById("content").offsetWidth - 40; // Adjusted for padding
+        const svgHeight = document.getElementById("content").offsetHeight - 40; // Adjusted for padding
+        const margin = { top: 20, right: 20, bottom: 40, left: 40 }; // Adjusted for padding
+        const width = svgWidth - margin.left - margin.right;
+        const height = svgHeight - margin.top - margin.bottom;
+
+        const svg = d3.select("#scatterplot")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight);
+
+        // Load data from CSV
+        d3.csv("../dataset/modified_data.csv").then(function (data) {
+            // Convert string data to numbers
+            data.forEach(d => {
+                d.Turnout = parseFloat(d.Turnout.replace(",", ""));
+                d.votes = parseFloat(d.votes.replace(/,/g, ""));
+                d.marginPercentage = parseFloat(d["margin%"].replace("%", ""));
+            });
+
+            function updatePlot(minMargin, state, year) {
+                const filteredData = data.filter(d =>
+                    d.state === state &&
+                    d.year === year
+                );
+
+                const xScale = d3.scaleLinear()
+                    .domain([d3.min(filteredData, d => d.Turnout) - 2, d3.max(filteredData, d => d.Turnout) + 2])
+                    .range([margin.left, width - margin.right]);
+
+                const yScale = d3.scaleLinear()
+                    .domain([d3.min(filteredData, d => d.votes) - 50000, d3.max(filteredData, d => d.votes) + 50000])
+                    .range([height - margin.bottom, margin.top]);
+
+                const radiusScale = d3.scaleLinear()
+                    .domain([minMargin, d3.max(filteredData, d => d.marginPercentage)])
+                    .range([5, 30]);
+
+                const colorScale = d3.scaleOrdinal()
+                    .domain(filteredData.map(d => d.party))
+                    .range(d3.schemeCategory10);
+
+                svg.selectAll("*").remove();
+
+                // Add x-axis
+                svg.append("g")
+                    .attr("class", "x-axis")
+                    .attr("transform", `translate(0, ${height - margin.bottom})`)
+                    .call(d3.axisBottom(xScale));
+
+                // Add y-axis
+                svg.append("g")
+                    .attr("class", "y-axis")
+                    .attr("transform", `translate(${margin.left}, 0)`)
+                    .call(d3.axisLeft(yScale));
+
+                // Add circles
+                svg.selectAll("circle")
+                    .data(filteredData.filter(d =>
+                        d.marginPercentage >= minMargin))
+                    .enter().append("circle")
+                    .attr("cx", d => xScale(d.Turnout))
+                    .attr("cy", d => yScale(d.votes))
+                    .attr("r", d => radiusScale(d.marginPercentage))
+                    .attr("fill", d => colorScale(d.party))
+                    .attr("opacity", 0.7)
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 1)
+                    .on("mouseover", function (event, d) {
+                        d3.select("#tooltip")
+                            .style("visibility", "visible")
+                            .html(`<b>Constituency:</b>${d.Pc_name} <br><b>Party:</b> ${d.party}<br><b>Turnout:</b> ${d.Turnout}<br><b>Votes:</b> ${d.votes}<br><b>Margin Percentage:</b> ${d.marginPercentage}%`)
+                            .style("left", (event.pageX + 10) + "px")
+                            .style("top", (event.pageY - 10) + "px");
+                    })
+                    .on("mouseout", function () {
+                        d3.select("#tooltip").style("visibility", "hidden");
+                    });
+
+                // Add legend
+                const legend = svg.selectAll(".legend")
+                    .data(colorScale.domain())
+                    .enter().append("g")
+                    .attr("class", "legend")
+                    .attr("transform", (d, i) => `translate(0, ${i * 20 + margin.top})`);
+
+                legend.append("rect")
+                    .attr("x", width - margin.right - 18)
+                    .attr("width", 18)
+                    .attr("height", 18)
+                    .style("fill", colorScale);
+
+                legend.append("text")
+                    .attr("x", width - margin.right - 24)
+                    .attr("y", 9)
+                    .attr("dy", ".35em")
+                    .style("text-anchor", "end")
+                    .text(d => d)
+                    .attr("fill", "white");
+            }
+
+            const marginSlider = document.getElementById("margin-slider");
+            const marginValue = document.getElementById("margin-value");
+            const stateSelect = document.getElementById("state-select");
+            const yearSelect = document.getElementById("year-select");
+            const button = document.getElementById("myButton");
+
+            updatePlot(marginSlider.value, stateSelect.value, yearSelect.value);
+
+            marginSlider.addEventListener("input", function () {
+                const value = +this.value;
+                marginValue.textContent = value + "%";
+            });
+
+            button.addEventListener("click", function () {
+                updatePlot(+marginSlider.value, stateSelect.value, yearSelect.value);
+            });
+
+            stateSelect.addEventListener("change", function () {
+                updatePlot(+marginSlider.value, this.value, yearSelect.value);
+            });
+
+            yearSelect.addEventListener("change", function () {
+                updatePlot(+marginSlider.value, stateSelect.value, this.value);
+            });
+
+        }).catch(function (error) {
+            console.log("Error loading the data:", error);
+        });
+    </script>
+</body>
+
+</html>
